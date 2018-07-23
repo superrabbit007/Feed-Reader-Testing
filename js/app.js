@@ -21,6 +21,9 @@ var allFeeds = [
     }
 ];
 
+
+
+
 /* 这个函数负责启动我们的应用，Google Feed Reader API 会被异步加载
  * 然后调用这个方法。
  */
@@ -37,7 +40,7 @@ function init() {
  function loadFeed(id, cb) {
      var feedUrl = allFeeds[id].url,
          feedName = allFeeds[id].name;
-
+         
      $.ajax({
        type: "POST",
        url: 'https://rsstojson.udacity.com/parseFeed',
@@ -105,6 +108,7 @@ $(function() {
      */
     feedList.on('click', 'a', function() {
         var item = $(this);
+        console.log(item);
 
         $('body').addClass('menu-hidden');
         loadFeed(item.data('id'));
