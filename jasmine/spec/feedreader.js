@@ -55,7 +55,6 @@ $(function() {
          * 来搞清楚我们是怎么实现隐藏/展示菜单元素的。
          */
         it('is hidden', function() {
-            console.log($('body')[0].className.length);
             expect($('body')[0].className).toBe('menu-hidden');
         });
 
@@ -103,7 +102,6 @@ $(function() {
 
         it('even have one entry element', function(done) {
             let feed = $('.feed');
-            console.log($('.feed .entry-link'));
             expect(feed[0].hasChildNodes('a.entry-link')).toBeTruthy();
             done();
         });
@@ -118,10 +116,12 @@ $(function() {
          * 记住，loadFeed() 函数是异步的。
          */
 
-        let urlIndex = 0;
+        //通过random产生随机数，（第一次）随机测试加载某个feed
         let ran = Math.random();
+        let urlIndex = 0;
         let firstTitle,secondTitle;
         let firstFeed,secondFeed;
+        //（第二次）固定测试加载allFeeds中的最后一个feed
         let index = allFeeds.length - 1;
 
         beforeEach(function(done) {
@@ -132,27 +132,27 @@ $(function() {
                 loadFeed(index, function() {
                     secondTitle = $('.header-title').first().text();
                     secondFeed = $('.feed').first().html();
-                    console.log(2);
                     done();
                 });
-            console.log(1);
 
             });
 
-        }, 8000);
+        }, 10000);
 
+        //测试结束后，页面刷新为第一个feed
         afterEach(function() {
             setTimeout(function() {
                 loadFeed(0);
 
-            }, 13000);
-        }, 15000);
+            }, 15000);
+        }, 20000);
 
         it('could be change correctly', function(done) {
             // console.log(secondFeed);
+            //确保两次加载的页面主标题和内容均不同
             expect(firstTitle).not.toBe(secondTitle);
             expect(firstFeed).not.toBe(secondFeed);
-            // 第一次加载的页面使用随机产生的urlIndex,页面标题
+            // 第一次加载的页面标题使用随机的index，应该和allFeeds中相同的index下页面主标题一致
             expect(firstTitle).toBe(allFeeds[urlIndex].name);
             done();
         }, 5000);
